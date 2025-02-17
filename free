@@ -1,0 +1,31 @@
+local ScreenGui = Instance.new("ScreenGui", game.CoreGui)
+local Frame = Instance.new("Frame", ScreenGui)
+Frame.Size = UDim2.new(1, 0, 1, 0)
+Frame.BackgroundColor3 = Color3.new(1, 1, 1)
+
+local function createESP(player)
+    player.CharacterAdded:Connect(function(char)
+        if char:FindFirstChild("HumanoidRootPart") then
+            local Billboard = Instance.new("BillboardGui", char.HumanoidRootPart)
+            Billboard.Size = UDim2.new(1, 0, 1, 0)
+            Billboard.AlwaysOnTop = true
+
+            local Label = Instance.new("TextLabel", Billboard)
+            Label.Size = UDim2.new(1, 0, 1, 0)
+            Label.BackgroundTransparency = 1
+            Label.TextColor3 = Color3.new(1, 0, 0)
+            Label.TextSize = 14
+            Label.Text = player.Name
+        end
+    end)
+end
+
+for _, player in pairs(game:GetService("Players"):GetPlayers()) do
+    if player ~= game.Players.LocalPlayer then
+        createESP(player)
+    end
+end
+
+game:GetService("Players").PlayerAdded:Connect(function(player)
+    createESP(player)
+end)
